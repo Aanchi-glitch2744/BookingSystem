@@ -2,9 +2,9 @@ const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const authRoute = require('./routes/auth.js')
-const usersRoute = require('./routes/auth.js')
-const hotelsRoute = require('./routes/auth.js')
-const roomsRoute = require('./routes/auth.js')
+const usersRoute = require('./routes/users.js')
+const hotelsRoute = require('./routes/hotels.js')
+const roomsRoute = require('./routes/rooms.js')
 const app = express()
 dotenv.config()
 
@@ -23,10 +23,14 @@ mongoose.connection.on("disconnected", ()=> {
 })
 
 //middlewares
+
+//by default, we cannot use json objects simply to call an api so call this --->
+app.use(express.json())
+
 app.use("/api/auth", authRoute);
-app.use("/api/users", authRoute);
-app.use("/api/hotels", authRoute);
-app.use("/api/rooms", authRoute);
+app.use("/api/users", usersRoute);
+app.use("/api/hotels", hotelsRoute);
+app.use("/api/rooms", roomsRoute);
 app.listen(5000, ()=> {
     connect()
     console.log('Server is running on port 5000')
