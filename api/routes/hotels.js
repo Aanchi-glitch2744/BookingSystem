@@ -1,56 +1,34 @@
 const express = require('express')
 const Hotel = require('../models/Hotel.js')
 const router = express.Router();
+const createError = require("../utils/error");
+const {
+    createHotel,
+    updateHotel,
+    deleteHotel,
+    getHotel,
+    getHotels,
+    countByCity,
+    countByType,
+    getHotelRooms
+} = require('../controllers/hotel')
+const {verifyToken, verifyAdmin, verifyUser} = require('../utils/verifyToken')
 
 //Create
-router.post("/", async (req, res)=> {
-    const newHotel = new Hotel(req.body)
-
-    try {
-        const savedHotel = await newHotel.save()
-        res.status(200).json(savedHotel)
-
-    } catch (e) {
-        res.status(500).json(e)
-    }
-})
+router.post("/", verifyAdmin, createHotel)
 
 //Read
-router.get("/", async (req, res)=> {
-    try {
-        const getHotel = await Hotel.find()
-        res.status(200).json(getHotel)
-    } catch (e) {
-        res.status(500).json(e)
-    }
-})
+router.get("/:id", verifyAdmin, getHotel)
 
 //Update
-
-router.put("/:id", async (req, res)=> {
-    try {
-        const updatedHotel = await Hotel.findByIdAndUpdate(
-            req.params.id,
-            { $set: req.body},
-            { new: true }
-            )
-        res.status(200).json(updatedHotel)
-    } catch (e) {
-        res.status(500).json(e)
-    }
-})
+router.put("/:id", verifyAdmin, updateHotel)
 
 //Delete
-router.delete("/:id", async (req, res)=> {
-    try {
-        const deletedHotel = await Hotel.findByIdAndDelete(
-            req.params.id,
-            { new: true }
-        )
-        res.status(200).json(deletedHotel)
-    } catch (e) {
-        res.status(500).json(e)
-    }
-})
+router.delete("/:id", verifyAdmin, deleteHotel)
+
+router.get("/", getHotels);
+router.get("/countByCity", countByCity);
+router.get("/countByType", countByType);
+router.get("/room/:id", getHotelRooms);
 
 module.exports = router
