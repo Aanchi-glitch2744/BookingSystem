@@ -1,4 +1,5 @@
 const Hotel = require("../models/Hotel.js");
+const Room = require("../models/Room")
 const createHotel = async (req, res, next) => {
     const newHotel = new Hotel(req.body)
 
@@ -42,11 +43,12 @@ const getHotel = async (req, res, next) => {
 };
 const getHotels = async (req, res, next) => {
     const { min, max, ...others } = req.query;
+    const limit = parseInt(req.query.limit)
     try {
         const hotels = await Hotel.find({
             ...others,
-            cheapestPrice: { $gt: min | 1, $lt: max || 999 },
-        }).limit(req.query.limit);
+            cheapestPrice: { $gt: min | 1, $lt: max || 3000 },
+        }).limit(limit);
         res.status(200).json(hotels);
     } catch (err) {
         next(err);

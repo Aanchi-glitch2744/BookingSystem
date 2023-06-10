@@ -85,7 +85,7 @@ const Hotel = () => {
                             />
                             <div className="sliderWrapper">
                                 <img
-                                    src={data.photos[slideNumber]}
+                                    src={data.images[slideNumber]}
                                     alt=""
                                     className="sliderImg"
                                 />
@@ -108,11 +108,11 @@ const Hotel = () => {
               Excellent location – {data.distance}m from center
             </span>
                         <span className="hotelPriceHighlight">
-              Book a stay over ${data.cheapestPrice} at this property and get a
+              Book a stay over Rs.{data.cheapestPrice} at this property and get a
               free airport taxi
             </span>
                         <div className="hotelImages">
-                            {data.photos?.map((photo, i) => (
+                            {data.images?.map((photo, i) => (
                                 <div className="hotelImgWrapper" key={i}>
                                     <img
                                         onClick={() => handleOpen(i)}
@@ -135,7 +135,7 @@ const Hotel = () => {
                   excellent location score of 9.8!
                 </span>
                                 <h2>
-                                    <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
+                                    <b>Rs.{days * data.cheapestPrice * options.room}</b> ({days}{" "}
                                     nights)
                                 </h2>
                                 <button onClick={handleClick}>Reserve or Book Now!</button>

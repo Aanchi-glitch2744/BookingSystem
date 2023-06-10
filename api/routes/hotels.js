@@ -18,7 +18,7 @@ const {verifyToken, verifyAdmin, verifyUser} = require('../utils/verifyToken')
 router.post("/", verifyAdmin, createHotel)
 
 //Read
-router.get("/:id", verifyAdmin, getHotel)
+router.get("/find/:id", verifyAdmin, getHotel)
 
 //Update
 router.put("/:id", verifyAdmin, updateHotel)

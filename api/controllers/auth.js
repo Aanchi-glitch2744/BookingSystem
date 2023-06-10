@@ -8,8 +8,7 @@ const register = async (req, res, next) => {
         const hash = bcrypt.hashSync(req.body.password, salt)
 
         const newUser = new User({
-            username: req.body.username,
-            email: req.body.email,
+            ...req.body,
             password: hash
         })
 
@@ -34,7 +33,7 @@ const login = async (req, res, next) => {
         const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET); //secret key
 
 
-        const {password, isAdmin, ...otherDetails} = user._doc
+        const {password, ...otherDetails} = user._doc  //Removed isAdmin
 
         res.cookie("access_token", token, {
           httpOnly: true //This doesn't allow any client secrets to reach to this cookie
